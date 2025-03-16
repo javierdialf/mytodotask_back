@@ -1,0 +1,7 @@
+export enum repetir{
+    NO = 'NO',
+    DIARIAMENTE = 'DIARIAMENTE',
+    DIAPORMEDIO = 'DIAPORMEDIO',
+    SEMANALMENTE = 'SEMANALMENTE',
+    MENSUAL = 'MENSUALMENTE'
+};

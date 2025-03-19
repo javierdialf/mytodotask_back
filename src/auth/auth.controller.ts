@@ -42,12 +42,14 @@ export class AuthController {
     }
 
 
+
     @IsPublic()
     @UseGuards(ResetPasswordGuard)
     @Post('/forgot-password')
-    public async forgotPassword(@Headers() headers: any): Promise<void> {
+    public async forgotPassword(@Headers() headers: any): Promise<string> {
       const userEmail = headers['user-email'];
       await this.passwordResetService.generatePasswordResetToken(userEmail);
+      return 'bacano se envio todo'
     }
 
     @IsPublic()

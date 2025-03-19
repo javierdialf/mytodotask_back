@@ -3,7 +3,7 @@ export const EMAIL_RESET_PASSWORD_INFORMATION = {
     APP_NAME: 'APP_NAME',
     SUBJECT_EMAIL: 'Reset password email',
     
-    HTML_INFORMATION: (resetPasswordLink: string) => {
+    HTML_INFORMATION: (resetPasswordLink: string) => (
         `<p>Dear Student, <strong>{name}</strong></p>
         <p>Please accept our best regards.</p>
         <p>To assign a new password, click the link below:</p>
@@ -12,7 +12,7 @@ export const EMAIL_RESET_PASSWORD_INFORMATION = {
         <p>This email is for informational purposes only. Please do not reply to this message.</p>
         <p>Cordially,<br>
         <strong>{auth backend app}</strong></p>`
-    },
+    ),
 
     RESET_PASSWORD_LINK: (resetPasswordToken: string) => `http://localhost:8080/auth/reset-password?reset_token=${resetPasswordToken}`
 }

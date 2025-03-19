@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, InternalServerErrorException } from "@nestjs/common";
+import { ForbiddenException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UsersService } from "src/users/users.service";
@@ -21,12 +21,12 @@ export class PasswordResetService {
 
                 
     public async generatePasswordResetToken(userEmail: string): Promise<void> {
-        await this.userService.findUserByEmail(userEmail);
+        if (!await this.userService.findUserByEmail(userEmail)) throw new NotFoundException()
 
-        const passwordResetToken = this.jwtService.sign({userEmail}, {expiresIn: '1m'});
+        const passwordResetToken = this.jwtService.sign({userEmail}, {expiresIn: '10m'});
 
         const decodedToken = this.jwtService.decode(passwordResetToken);
-        if (!decodedToken) throw new Error(ErrorMessage.OPERATION_FAILED_ERROR);;
+        if (!decodedToken) throw new Error(ErrorMessage.OPERATION_FAILED_ERROR);
         const createdAt: number = decodedToken.iat;
         const expiresIn: number = decodedToken.exp;
         
@@ -39,7 +39,7 @@ export class PasswordResetService {
 
         await this.resetTokenRepository.save(tokenCreated);
         
-        this.mailService.sendResetPasswordEmail(userEmail, passwordResetToken); 
+        await this.mailService.sendResetPasswordEmail(userEmail, passwordResetToken); 
     }
 
     
@@ -48,6 +48,7 @@ export class PasswordResetService {
         if (!userEmail) throw new InternalServerErrorException(ErrorMessage.OPERATION_FAILED_ERROR);
 
         const userFound = await this.userService.findUserByEmail(userEmail);
+        
 
         const deleteResult = await this.resetTokenRepository.createQueryBuilder()
         .delete()
@@ -58,7 +59,7 @@ export class PasswordResetService {
         if(!deleteResult.affected) throw new InternalServerErrorException(ErrorMessage.OPERATION_FAILED_ERROR);
 
         const hashedPassword = await this.encoderService.encodePassword(newPassword)
-        this.userService.changePassword(userFound.id, hashedPassword);
+        await this.userService.changePassword(userFound.id, hashedPassword);
 
          return {
             message: 'password successfully restored, you can now log in.',
@@ -69,7 +70,8 @@ export class PasswordResetService {
 
     public async changePassword(userId: string, {oldPassword, newPassword}: ChangePasswordDto): Promise<DataResponseDto<void>> {
         const userFound = await this.userService.findUserById(userId);
-  
+        if (!userFound) throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND('user'));
+
         const matchPassword: boolean = this.encoderService.matchPassword(oldPassword, userFound.password);
         if (!matchPassword) throw new ForbiddenException(ErrorMessage.WRONG_CREDENTIALS);
   

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import * as nodemailer from 'nodemailer';
 import { EMAIL_RESET_PASSWORD_INFORMATION } from "src/common";
 import { ENVS_NODEMAILER} from "src/config";
@@ -23,18 +23,25 @@ export class EmailService {
 
     
 
-    public sendResetPasswordEmail(userEmail: string, resetToken: string): void {
-      const resetPasswordLink = EMAIL_RESET_PASSWORD_INFORMATION.RESET_PASSWORD_LINK(resetToken);
-      const htmlTextInformation = EMAIL_RESET_PASSWORD_INFORMATION.HTML_INFORMATION(resetPasswordLink); 
-
-      const options = {
-        from: EMAIL_RESET_PASSWORD_INFORMATION.APP_NAME, //el que lo vaya a usar que cambie esto por el nombre de la app y tambien en el html o si no que lo quite.
-        to: userEmail,
-        subject: EMAIL_RESET_PASSWORD_INFORMATION.SUBJECT_EMAIL,
-        html: htmlTextInformation
+    public async sendResetPasswordEmail(userEmail: string, resetToken: string): Promise<void> {
+      try {
+          const resetPasswordLink = EMAIL_RESET_PASSWORD_INFORMATION.RESET_PASSWORD_LINK(resetToken);
+          const htmlTextInformation = EMAIL_RESET_PASSWORD_INFORMATION.HTML_INFORMATION(resetPasswordLink); 
+  
+          const options = {
+              from: EMAIL_RESET_PASSWORD_INFORMATION.APP_NAME,
+              to: userEmail,
+              subject: EMAIL_RESET_PASSWORD_INFORMATION.SUBJECT_EMAIL,
+              html: htmlTextInformation
+          };
+  
+          await this.transport.sendMail(options);
+          console.log(`Reset email sent successfully to ${userEmail}`);
+      } catch (error) {
+          console.error('Error sending reset password email:', error);
+          throw new InternalServerErrorException('Could not send reset email');
       }
-
-      this.transport.sendMail(options);
-    }
+  }
+  
 
 }

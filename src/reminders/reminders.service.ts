@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ConflictException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { CreateReminderDto } from './dto/create-reminder.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Reminder } from './entities/reminder.entity';
@@ -107,7 +107,7 @@ export class RemindersService {
               }
           };
 
-          throw new Error(ErrorMessage.OPERATION_FAILED_ERROR);
+          throw new InternalServerErrorException(ErrorMessage.OPERATION_FAILED_ERROR);
   }
   
 
@@ -130,7 +130,7 @@ export class RemindersService {
             }
           }
 
-          throw new Error(ErrorMessage.OPERATION_FAILED_ERROR);
+          throw new InternalServerErrorException(ErrorMessage.OPERATION_FAILED_ERROR);
     }
 
 }

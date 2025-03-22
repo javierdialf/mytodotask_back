@@ -4,6 +4,7 @@ import { PassportStrategy } from "@nestjs/passport";
 import { Strategy } from "passport-local";
 import {VerifyCallback} from 'passport-google-oauth2';
 
+/*
 @Injectable()
 export class googleStrategy extends PassportStrategy(Strategy, 'google') {
 
@@ -28,3 +29,4 @@ export class googleStrategy extends PassportStrategy(Strategy, 'google') {
         done(null, user);
     }
 }
+*/

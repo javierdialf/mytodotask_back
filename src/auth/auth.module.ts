@@ -11,7 +11,8 @@ import { EmailService } from './email.service';
 import { ResetToken } from './entities/reset-token.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PasswordResetService } from './password-reset.service';
-import { ENVS_JWT } from 'src/config';
+import { ENVS_JWT } from 'config';
+import { JwtResetPasswordStrategy } from './strategies/jwt-reset-token-password.strategy';
 
 
 @Module({
@@ -26,6 +27,6 @@ import { ENVS_JWT } from 'src/config';
     
     UsersModule],
   controllers: [AuthController],
-  providers: [AuthTokensService, AuthService, EncoderService, EmailService, LocalStrategy, JwtStrategy, PasswordResetService]
+  providers: [AuthTokensService, AuthService, EncoderService, EmailService, PasswordResetService, LocalStrategy, JwtStrategy, JwtResetPasswordStrategy]
 })
 export class AuthModule {}

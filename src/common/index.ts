@@ -1,6 +1,6 @@
 export * from "./dto/pagination.dto";
 export * from "./constants/pagination.constants";
-export * from "./interceptor/note.interceptor";
+export * from "./interceptors/response.interceptor";
 export * from './dto/estructure-response.dto';
 export * from  "./dto/data-response.dto";
 export * from "./abstract_models/baseModel";

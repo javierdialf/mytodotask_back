@@ -1,4 +1,4 @@
-import { BadGatewayException, BadRequestException,  Injectable, NotFoundException } from '@nestjs/common';
+import { BadGatewayException, BadRequestException,  Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Note } from './entities/notes.entity';
 import { DeleteResult, Repository} from 'typeorm';
@@ -104,7 +104,7 @@ export class NotesService {
                     content: await this.findNoteById(noteId)
                 }
             };
-            throw new Error(ErrorMessage.OPERATION_FAILED_ERROR);
+            throw new InternalServerErrorException(ErrorMessage.OPERATION_FAILED_ERROR);
         }
 
 
@@ -124,7 +124,7 @@ export class NotesService {
                 data: null
             }
 
-            throw new Error(ErrorMessage.OPERATION_FAILED_ERROR);
+            throw new InternalServerErrorException(ErrorMessage.OPERATION_FAILED_ERROR);
     }
 
 

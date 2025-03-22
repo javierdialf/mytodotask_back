@@ -10,7 +10,10 @@ export const ErrorMessage = {
 
     DATA_NOT_EMPTY: 'the data cannot be empty',
 
-    OPERATION_FAILED_ERROR: 'An error occurred while executing the action, and it could not be completed successfully',
+    OPERATION_FAILED_ERROR:(message?: string) => message
+    ? message
+    : 'An error occurred while executing the action, and it could not be completed successfully',
+    
 
     ONLY_INSTITUTIONAL_EMAILS: 'only institutional emails',
     WRONG_CREDENTIALS: 'wrong credentials'

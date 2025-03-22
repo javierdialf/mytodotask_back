@@ -7,7 +7,7 @@ interface EnvJwtVars {
         JWT_ACCESS_TOKEN_EXPIRATION: string,
         JWT_REFRESH_TOKEN_EXPIRATION: string,
         JWT_SECRET_KEY_RESET: string,
-        JWT_RESET_TOKEN_EXPIRATION: string
+        JWT_RESET_PASSWORD_TOKEN_EXPIRATION: string;
 }
 
 export const envsJwtSchema = joi.object({
@@ -16,7 +16,7 @@ export const envsJwtSchema = joi.object({
         JWT_ACCESS_TOKEN_EXPIRATION: joi.string().required(),
         JWT_REFRESH_TOKEN_EXPIRATION: joi.string().required(),
         JWT_SECRET_KEY_RESET: joi.string().required(),
-        JWT_RESET_TOKEN_EXPIRATION: joi.string().required()
+        JWT_RESET_PASSWORD_TOKEN_EXPIRATION: joi.string().required()
 }).unknown(true);
 
 
@@ -32,5 +32,5 @@ export const ENVS_JWT = {
     jwt_access_token_expiration: envJwtVars.JWT_ACCESS_TOKEN_EXPIRATION,
     jwt_refresh_token_expiration: envJwtVars.JWT_REFRESH_TOKEN_EXPIRATION,
     jwt_secret_key_reset: envJwtVars.JWT_SECRET_KEY_RESET,
-    jwt_reset_token_expiration: envJwtVars.JWT_RESET_TOKEN_EXPIRATION,
+    jwt_reset_password_token_expiration: envJwtVars.JWT_RESET_PASSWORD_TOKEN_EXPIRATION,
 } 

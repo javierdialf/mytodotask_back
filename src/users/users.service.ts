@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException} from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Equal, Repository, UpdateResult } from 'typeorm';
 import { User } from './entities/users.entity';
@@ -72,7 +72,7 @@ export class UsersService {
                 }
             } 
 
-            throw new Error(ErrorMessage.OPERATION_FAILED_ERROR);
+            throw new InternalServerErrorException(ErrorMessage.OPERATION_FAILED_ERROR);
     }
 
 

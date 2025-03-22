@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Patch, Post, Query, Request, UseGuards, Headers } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Patch, Post, Query, Request, UseGuards, Headers, UseInterceptors, ValidationPipe, UsePipes } from '@nestjs/common';
 import { createUserDto } from 'src/auth/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { IsPublic } from './decorators/public.decorator';
@@ -7,7 +7,9 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { getCurrentUserId } from './decorators/getCurrentUserId.decorator';
 import { DataResponseDto } from 'src/common';
 import { PasswordResetService } from './password-reset.service';
-import { ResetPasswordGuard } from './guards/reset-password.guard';
+import { ValidateUserResetPasswordInterceptor } from './interceptors/validate-user-reset-password.interceptor';
+import { JwtResetPasswordGuard } from './guards/jwt-reset-token-passwod.guard';
+import { ResetTokenPasswordDto } from './dto/reset-token-password.dto';
 
 
 @Controller('auth')
@@ -43,18 +45,21 @@ export class AuthController {
 
 
 
+    @HttpCode(HttpStatus.OK)
+    @UseInterceptors(ValidateUserResetPasswordInterceptor)
     @IsPublic()
-    @UseGuards(ResetPasswordGuard)
     @Post('/forgot-password')
-    public async forgotPassword(@Headers() headers: any): Promise<string> {
+    public async forgotPassword(@Headers() headers: any): Promise<DataResponseDto<void>> {
       const userEmail = headers['user-email'];
-      await this.passwordResetService.generatePasswordResetToken(userEmail);
-      return 'bacano se envio todo'
+      return await this.passwordResetService.generatePasswordResetToken(userEmail);
     }
 
+
+    @UseGuards(JwtResetPasswordGuard)
+    @UsePipes(new ValidationPipe({transform: true}))
     @IsPublic()
     @Patch('/reset-password')
-    public async resetPassword(@Query() {reset_token}: {reset_token: string}, @Body() {newPassword}: {newPassword: string}): Promise<DataResponseDto<void>> {
-      return await this.passwordResetService.resetPassword(reset_token, newPassword);
+    public async resetPassword(@Query() { resetToken }: ResetTokenPasswordDto, @Body() {newPassword}: {newPassword: string}): Promise<DataResponseDto<void>> {
+      return await this.passwordResetService.resetPassword(resetToken, newPassword);
     }
 }

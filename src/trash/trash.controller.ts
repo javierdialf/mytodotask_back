@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Delete } from '@nestjs/common';
 import { TrashService } from './trash.service';
 import { getCurrentUserId } from 'src/auth/decorators/getCurrentUserId.decorator';
 import { DeleteResult } from 'typeorm';

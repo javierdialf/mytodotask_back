@@ -8,7 +8,7 @@ import { RemindersModule } from './reminders/reminders.module';
 import {JwtAuthGuard} from './auth/guards/jwt.guard';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { TrashModule } from './trash/trash.module';
-import { ENVS_DATABASE } from './config';
+import { ENVS_DATABASE } from '../config';
 import { ResponseInterceptor } from './common';
 
 

@@ -49,7 +49,7 @@ export class AuthTokensService {
     }
 
 
-    /*rehacer metodo de generacion de refresh token, MAS TARDE
+    /*rehacer metodo de generacion de refresh token, MAS TARDE o otro dia
     genJwtRefreshToken(payload: jwtPayloadDto) {
         try{
             const refresh_token = this.jwtService.signAsync(payload,{

@@ -1,4 +1,4 @@
-import { BadGatewayException, BadRequestException,  Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException,  Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Note } from './entities/notes.entity';
 import { DeleteResult, Repository} from 'typeorm';

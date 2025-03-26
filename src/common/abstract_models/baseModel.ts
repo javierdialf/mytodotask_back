@@ -1,4 +1,4 @@
-import { UpdateDateColumn, Column, PrimaryGeneratedColumn, CreateDateColumn, Entity, TableInheritance } from "typeorm";
+import { UpdateDateColumn, Column, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
 
 export abstract class BaseModel{
     @PrimaryGeneratedColumn('uuid')

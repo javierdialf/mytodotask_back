@@ -14,8 +14,9 @@ async function bootstrap() {
     methods: 'GET, PATCH, POST, DELETE',
     credentials: true
   });
-  
-  await app.listen(8080);
-  logger.log(`App running at port: ${8080}`)
+
+  const APP_PORT = process.env.PORT || 3000;
+  await app.listen(APP_PORT);
+  logger.log(`App running at port: ${APP_PORT}`)
 }
 bootstrap();

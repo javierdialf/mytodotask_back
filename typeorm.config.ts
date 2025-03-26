@@ -1,15 +1,15 @@
-import { ENVS_DATABASE } from './src/config';
+import 'dotenv/config';
 import { DataSource } from "typeorm";
 
 
 export default new DataSource({
     type: 'mysql',
-    host: ENVS_DATABASE.db_host,
-    port: ENVS_DATABASE.db_port,
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),
 
-    username: ENVS_DATABASE.db_username,
-    password: ENVS_DATABASE.db_password,
-    database: ENVS_DATABASE.database,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DATABASE,
     entities: ['src/**/*.entity.ts'],
     migrations: ["database/migrations/*.ts"],
 })
